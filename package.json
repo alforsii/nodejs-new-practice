@@ -4,7 +4,8 @@
   "description": "new practice",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index",
+    "dev": "nodemon http.server.js"
   },
   "author": "ashraf",
   "license": "ISC",
