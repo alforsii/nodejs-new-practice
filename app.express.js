@@ -19,8 +19,10 @@ app.use(logger);
 //   next();
 // });
 
-app.engine("handlebars", exphbs());
-app.set("view engine", "handlebars");
+// app.engine("handlebars", exphbs());
+// app.set("view engine", "handlebars");
+app.engine(".hbs", exphbs({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
 
 // Body parser middleware | to use req.body
 app.use(express.json());
