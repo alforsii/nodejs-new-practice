@@ -18,6 +18,11 @@ app.use(logger);
 //   next();
 // });
 
+// Body parser middleware | to use req.body
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// get users
 app.get("/api/users", (req, res) => {
   fetch("https://api.github.com/users")
     .then((res) => res.json())
@@ -28,14 +33,47 @@ app.get("/api/users", (req, res) => {
     });
 });
 
+// get a user
 app.get("/api/users/:id", (req, res) => {
   fetch("https://api.github.com/users")
     .then((res) => res.json())
     .then((users) => {
       //   res.render("users.html", { users });
       const user = users.filter((user) => user.id === parseInt(req.params.id));
-      console.log("🚀 ~ file: app.express.js ~ line 24 ~ .then ~ user", user);
-      res.json(user);
+      if (user.length) {
+        res.status(200).json({ message: "Success", user: user[0] });
+      } else {
+        res.status(404).json({ message: "User not found!" });
+      }
+    });
+});
+
+// add user
+app.post("/api/users", (req, res) => {
+  res.send(req.body);
+});
+// update user
+app.put("/api/users/:id", (req, res) => {
+  const theUser = req.body;
+  fetch("https://api.github.com/users")
+    .then((res) => res.json())
+    .then((users) => {
+      //   res.render("users.html", { users });
+      const foundUser = users.some(
+        (user) => user.id === parseInt(req.params.id)
+      );
+      if (foundUser) {
+        users.forEach((user) => {
+          if (user.id === parseInt(req.params.id)) {
+            const updatedUser = { ...user, ...theUser };
+            res
+              .status(200)
+              .json({ message: "User updated!", user: updatedUser });
+          }
+        });
+      } else {
+        res.status(404).json({ message: "User not found!" });
+      }
     });
 });
 
