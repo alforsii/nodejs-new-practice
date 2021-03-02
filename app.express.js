@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const fetch = require("node-fetch");
+const exphbs = require("express-handlebars");
 
 const PORT = process.env.PORT || 5000;
 // Middleware
@@ -18,6 +19,9 @@ app.use(logger);
 //   next();
 // });
 
+app.engine("handlebars", exphbs());
+app.set("view engine", "handlebars");
+
 // Body parser middleware | to use req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,9 +31,9 @@ app.get("/api/users", (req, res) => {
   fetch("https://api.github.com/users")
     .then((res) => res.json())
     .then((users) => {
-      console.log("🚀 ~ file: app.express.js ~ line 24 ~ .then ~ users", users);
-      //   res.render("users.html", { users });
-      res.json(users);
+      //   console.log("🚀 ~ file: app.express.js ~ line 24 ~ .then ~ users", users);
+      res.render("index", { title: "Hello World", users });
+      //   res.json(users);
     });
 });
 
