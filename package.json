@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "dev": "nodemon http.server.js"
+    "http": "nodemon http.server.js",
+    "app": "nodemon app.express.js"
   },
   "author": "ashraf",
   "license": "ISC",
@@ -13,6 +14,8 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
     "uuid": "^8.3.2"
   }
 }
